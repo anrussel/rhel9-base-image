@@ -16,6 +16,7 @@ jobs:
   build-image:
     runs-on: self-hosted
     steps:
+      - uses: actions/checkout@v4
       - name: Login to Quay.io
         uses: redhat-actions/podman-login@v1
         with:
