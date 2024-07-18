@@ -1,2 +1,4 @@
 # rhel9-base-image
-RHEL9 bootable image 
+This is the test repository for RHEL9 image mode.
+
+
