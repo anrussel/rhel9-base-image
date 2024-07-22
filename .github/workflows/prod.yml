@@ -49,6 +49,7 @@ jobs:
           image-ref: '${{ vars.QUAY_REGISTRY }}/${{ steps.build-image.outputs.image }}:${{ github.sha }}'
           format: 'table'
           exit-code: '1'
+          scan-ref: '_work'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
