@@ -43,11 +43,6 @@ jobs:
           build-args: |
             rootpw=${{ secrets.ROOTPW }}
 
-      # This is ugly        
-      - name: Run scanner
-        run: |
-          trivy image --scanners vuln ${{ vars.QUAY_REGISTRY }}/${{ steps.build-image.outputs.image }}:${{ github.sha }}
-
       - name: Push To quay.io
         id: push-to-quay
         uses: redhat-actions/push-to-registry@v2
@@ -56,3 +51,7 @@ jobs:
           tags: ${{ steps.build-image.outputs.tags }}
           registry: ${{ vars.QUAY_REGISTRY }}
 
+      # This is ugly
+      - name: Run scanner
+        run: |
+          trivy image --scanners vuln ${{ vars.QUAY_REGISTRY }}/${{ steps.build-image.outputs.image }}:${{ github.sha }}
