@@ -43,17 +43,10 @@ jobs:
           build-args: |
             rootpw=${{ secrets.ROOTPW }}
 
-      - name: Run vulnerability scanner
-        uses: aquasecurity/trivy-action@0.20.0
-        with:
-          image-ref: 'quay.io}/anrussel:${{ github.sha }}'
-#          image-ref: '${{ vars.QUAY_REGISTRY }}/${{ steps.build-image.outputs.image }}:${{ github.sha }}'
-          format: 'table'
-          exit-code: '1'
-          scan-ref: '_work'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
+      # This is ugly        
+      - name: Run scanner
+        run: |
+          trivy image --scanners vuln ${{ vars.QUAY_REGISTRY }}/${{ steps.build-image.outputs.image }}:${{ github.sha }}
 
       - name: Push To quay.io
         id: push-to-quay
