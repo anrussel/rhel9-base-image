@@ -43,6 +43,16 @@ jobs:
           build-args: |
             rootpw=${{ secrets.ROOTPW }}
 
+      - name: Run vulnerability scanner
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          image-ref: '${{ vars.QUAY_REGISTRY }}/${{ steps.build-image.outputs.image }}:${{ github.sha }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
       - name: Push To quay.io
         id: push-to-quay
         uses: redhat-actions/push-to-registry@v2
